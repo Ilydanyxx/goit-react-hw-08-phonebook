@@ -16,11 +16,12 @@ export default function Filter() {
     <div>
       <label>
         {' '}
-        Find contacts by name
+        Find contacts by name:
         <input
           type="text"
           name="filter"
           title="Enter first letters or numbers"
+          placeholder='Enter first letters'
           value={value}
           onChange={handleChange}
         />
@@ -28,3 +29,4 @@ export default function Filter() {
     </div>
   );
 }
+

@@ -6,7 +6,7 @@ export const ContactListItem = ({ contact }) => {
   const dispatch = useDispatch();
   const [isEditMode, setIsEditMode] = useState(false);
   const [name, setName] = useState(contact.name);
-  const [phone, setPhone] = useState(contact.phone);
+  const [phone, setPhone] = useState(contact.number);
 
   const handleChange = e => {
     switch (e.target.name) {
@@ -27,15 +27,11 @@ export const ContactListItem = ({ contact }) => {
     if (isEditMode) {
       const editedContact = {
         name: name.trim(),
-        phone: phone.trim(),
+        number: phone.trim(),
         id: contact.id,
       };
       dispatch(editContact(editedContact));
     }
-  };
-
-  const handleDeleteButton = id => {
-    dispatch(deleteContact(id));
   };
 
   return (
@@ -51,7 +47,7 @@ export const ContactListItem = ({ contact }) => {
           />
         </div>
       ) : (
-        <span>{`${contact.name}: ${contact.phone}`}</span>
+        <span>{`${contact.name}: ${contact.number}`}</span>
       )}
       <div>
         <button type="button" onClick={handleEditMode}>
@@ -59,7 +55,7 @@ export const ContactListItem = ({ contact }) => {
         </button>
         <button
           type="button"
-          onClick={() => handleDeleteButton(contact.id)}
+          onClick={() => dispatch(deleteContact(contact.id))}
         >
           Delete
         </button>
