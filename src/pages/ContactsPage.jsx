@@ -4,7 +4,6 @@ import {
   Heading,
   Text,
   Spinner,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
