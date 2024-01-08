@@ -1,10 +1,13 @@
 import { Audio } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import { ChakraProvider, CSSReset, Box, Flex, Text, Button, useColorMode } from '@chakra-ui/react';
+import { Suspense, lazy, useEffect } from 'react';
+import { logoutUser, refreshUser } from './redux/operations';
 import {
   selectUserAuthentication,
   selectUserData,
 } from './redux/selectors';
-import { NavLink, Route, Routes } from 'react-router-dom';
 import {
   CONTACTS_ROUTE,
   HOME_ROUTE,
@@ -12,8 +15,6 @@ import {
   SIGNUP_ROUTE,
   appRoutes,
 } from 'config/routes';
-import { Suspense, lazy, useEffect } from 'react';
-import { logoutUser, refreshUser } from './redux/operations';
 
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -21,52 +22,56 @@ export function App() {
   const dispatch = useDispatch();
   const authenticated = useSelector(selectUserAuthentication);
   const userData = useSelector(selectUserData);
+  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
-    dispatch(refreshUser())
-  }, [dispatch])
+    dispatch(refreshUser());
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logoutUser());
   };
 
   return (
-    <div>
-      <header>
-        <nav>
-          <NavLink to={HOME_ROUTE} className='link'>Home</NavLink>
-
-          {authenticated ? (
-            <>
-              <NavLink to={CONTACTS_ROUTE} className='link'>Phonebook</NavLink>
-              <span>Hello, {userData.name}</span>
-              <button onClick={handleLogout} className='link'>Log Out</button>
-            </>
-          ) : (
-            <>
-              <NavLink to={SIGNUP_ROUTE} className='link'>Sign Up</NavLink>
-              <NavLink to={LOGIN_ROUTE} className='link'>Log In</NavLink>
-            </>
-          )}
-          
-        </nav>
-        
-      </header>
+    <ChakraProvider>
+      <CSSReset />
+      <Box p={4}>
+        <Flex justify="space-between" align="center">
+          <Text fontSize="xl" fontWeight="bold">
+            Phonebook App
+          </Text>
+          <Flex>
+            <NavLink to={HOME_ROUTE} activeClassName='active-link' className='link'>Home</NavLink>
+            {authenticated ? (
+              <>
+                <NavLink to={CONTACTS_ROUTE} activeClassName='active-link' className='link'>Phonebook</NavLink>
+                <Text ml={4}>Hello, {userData.name}</Text>
+                <Button ml={4} onClick={handleLogout} className='link'>Log Out</Button>
+              </>
+            ) : (
+              <>
+                <NavLink to={SIGNUP_ROUTE} activeClassName='active-link' className='link'>Sign Up</NavLink>
+                <NavLink to={LOGIN_ROUTE} activeClassName='active-link' className='link'>Log In</NavLink>
+              </>
+            )}
+          </Flex>
+        </Flex>
+      </Box>
       <hr />
-      <main>
+      <Box p={4}>
         <Suspense
           fallback={
             <Audio height="80" width="80" color="grey" ariaLabel="loading" />
           }
         >
           <Routes>
-            {appRoutes.map(({ path, element }) => {
-              return <Route path={path} element={element} key={path} />;
-            })}
+            {appRoutes.map(({ path, element }) => (
+              <Route path={path} element={element} key={path} />
+            ))}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </main>
-    </div>
+      </Box>
+    </ChakraProvider>
   );
 }

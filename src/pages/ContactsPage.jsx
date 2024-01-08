@@ -1,26 +1,43 @@
+import React from 'react';
+import {
+  Box,
+  Heading,
+  Text,
+  Spinner,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
-import React from 'react';
-import { Audio } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
-import { selectUserError, selectUserIsLoading } from '../redux/selectors';
+import {
+  selectUserError,
+  selectUserIsLoading,
+} from '../redux/selectors';
 
 const ContactsPage = () => {
-    const error = useSelector(selectUserError);
-    const isLoading = useSelector(selectUserIsLoading);
+  const error = useSelector(selectUserError);
+  const isLoading = useSelector(selectUserIsLoading);
+
   return (
-    <>
+    <Box p="4" maxW="600px" mx="auto">
       <ContactForm />
 
-      <h2>Contacts</h2>
+      <Heading fontSize="xl" mt="4">
+        Contacts
+      </Heading>
       <Filter />
-      {error !== null && <p>Oops, an error has occurred...</p>}
+
+      {error !== null && (
+        <Text color="red.500" mt="2">
+          Oops, an error has occurred...
+        </Text>
+      )}
       {isLoading && (
-        <Audio height="80" width="80" color="grey" ariaLabel="loading" />
+        <Spinner size="lg" color="teal.500" mt="2" />
       )}
       <ContactList />
-    </>
+    </Box>
   );
 };
 

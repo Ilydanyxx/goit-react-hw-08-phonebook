@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteContact, editContact } from '../../redux/operations';
+import {
+  Input,
+  Button,
+  Flex,
+  Text,
+} from '@chakra-ui/react';
 
 export const ContactListItem = ({ contact }) => {
   const dispatch = useDispatch();
@@ -8,7 +14,7 @@ export const ContactListItem = ({ contact }) => {
   const [name, setName] = useState(contact.name);
   const [phone, setPhone] = useState(contact.number);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
@@ -22,7 +28,7 @@ export const ContactListItem = ({ contact }) => {
   };
 
   const handleEditMode = () => {
-    setIsEditMode(prevState => !prevState);
+    setIsEditMode((prevState) => !prevState);
 
     if (isEditMode) {
       const editedContact = {
@@ -35,31 +41,35 @@ export const ContactListItem = ({ contact }) => {
   };
 
   return (
-    <li>
+    <Flex align="center" justify="space-between" mb={2}>
       {isEditMode ? (
-        <div>
-          <input type="text" name="name" value={name} onChange={handleChange} />
-          <input
+        <Flex align="center">
+          <Input
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            mr={2}
+          />
+          <Input
             type="text"
             name="phone"
             value={phone}
             onChange={handleChange}
+            mr={2}
           />
-        </div>
+        </Flex>
       ) : (
-        <span>{`${contact.name}: ${contact.number}`}</span>
+        <Text>{`${contact.name}: ${contact.number}`}</Text>
       )}
-      <div>
-        <button type="button" onClick={handleEditMode}>
+      <Flex>
+        <Button onClick={handleEditMode} mr={2}>
           {isEditMode ? 'Save' : 'Edit'}
-        </button>
-        <button
-          type="button"
-          onClick={() => dispatch(deleteContact(contact.id))}
-        >
+        </Button>
+        <Button onClick={() => dispatch(deleteContact(contact.id))}>
           Delete
-        </button>
-      </div>
-    </li>
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
