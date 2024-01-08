@@ -1,3 +1,4 @@
+import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { addContact } from '../../redux/operations';
@@ -11,7 +12,7 @@ export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
@@ -24,10 +25,10 @@ export default function ContactForm() {
     }
   };
 
-  const createContact = e => {
+  const createContact = (e) => {
     e.preventDefault();
     if (
-      contacts.find(contact => {
+      contacts.find((contact) => {
         return contact.name === name.trim();
       })
     ) {
@@ -47,12 +48,11 @@ export default function ContactForm() {
   };
 
   return (
-    <>
+    <Box mt={4}>
       <form onSubmit={createContact}>
-        <label htmlFor="name">
-          {' '}
-          Name
-          <input
+        <FormControl>
+          <FormLabel>Name</FormLabel>
+          <Input
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -61,11 +61,10 @@ export default function ContactForm() {
             onChange={handleChange}
             required
           />
-        </label>
-        <label htmlFor="number">
-          {' '}
-          Number
-          <input
+        </FormControl>
+        <FormControl mt={2}>
+          <FormLabel>Number</FormLabel>
+          <Input
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
@@ -74,12 +73,12 @@ export default function ContactForm() {
             onChange={handleChange}
             required
           />
-        </label>
-        <button type="submit">
+        </FormControl>
+        <Button mt={4} colorScheme="teal" type="submit">
           Add contact
-        </button>
+        </Button>
       </form>
-      <hr/>
-    </>
+      <hr />
+    </Box>
   );
 }

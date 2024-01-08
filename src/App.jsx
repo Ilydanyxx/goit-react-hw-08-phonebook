@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectUserAuthentication,
   selectUserData,
-} from '../redux/selectors';
+} from './redux/selectors';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import {
   CONTACTS_ROUTE,
@@ -13,9 +13,9 @@ import {
   appRoutes,
 } from 'config/routes';
 import { Suspense, lazy, useEffect } from 'react';
-import { logoutUser, refreshUser } from '../redux/operations';
+import { logoutUser, refreshUser } from './redux/operations';
 
-const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 export function App() {
   const dispatch = useDispatch();
@@ -48,6 +48,7 @@ export function App() {
               <NavLink to={LOGIN_ROUTE} className='link'>Log In</NavLink>
             </>
           )}
+          
         </nav>
         
       </header>
