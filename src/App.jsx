@@ -1,7 +1,7 @@
 import { Audio } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import { ChakraProvider, CSSReset, Box, Flex, Text, Button, useColorMode } from '@chakra-ui/react';
+import { ChakraProvider, CSSReset, Box, Flex, Text, Button } from '@chakra-ui/react';
 import { Suspense, lazy, useEffect } from 'react';
 import { logoutUser, refreshUser } from './redux/operations';
 import {
@@ -22,7 +22,6 @@ export function App() {
   const dispatch = useDispatch();
   const authenticated = useSelector(selectUserAuthentication);
   const userData = useSelector(selectUserData);
-  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     dispatch(refreshUser());
